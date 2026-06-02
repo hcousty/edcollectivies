@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /mentions-legales
+Disallow: /politique-confidentialite
+
+# Sitemap pour Google, Bing, et autres moteurs
+Sitemap: https://ed-collectivites.fr/sitemap.xml
