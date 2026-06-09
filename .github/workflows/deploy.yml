@@ -25,7 +25,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps          # FTP chiffré (TLS). Si erreur de certificat, repli possible sur "ftp".
+          protocol: ftp           # OVH n'expose pas FTPS ici (AUTH TLS refusé) ; FTP simple sur port 21.
           port: 21
           # Dossier web sur OVH. Pour le domaine principal d'un hébergement
           # mutualisé, c'est "www/". À vérifier dans OVH > Multisite si besoin.
