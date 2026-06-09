@@ -136,7 +136,14 @@
               <p>Votre conseiller régional vous recontacte sous 24 h ouvrées. Si la demande est urgente, vous pouvez aussi nous appeler au 05 63 22 93 56.</p>
             </div>
 
-            <form class="form" data-contact-form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+            <form class="form" data-contact-form action="https://formspree.io/f/xvznrqap" method="POST" novalidate>
+              <!-- Anti-spam (honeypot) : champ leurre invisible. Un humain le laisse vide ;
+                   un robot le remplit, et la demande est ignorée (côté JS + côté Formspree via le nom _gotcha). -->
+              <div aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
+                <label for="site-web">Laissez ce champ vide</label>
+                <input type="text" id="site-web" name="_gotcha" tabindex="-1" autocomplete="off">
+              </div>
+
               <div class="form__row">
                 <div class="field">
                   <label for="nom">Nom &amp; prénom <span class="required" aria-hidden="true">*</span></label>

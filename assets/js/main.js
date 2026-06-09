@@ -176,6 +176,14 @@
         return;
       }
 
+      // Anti-spam : si le honeypot est rempli, c'est un robot. On simule un succès sans rien envoyer.
+      const honeypot = form.querySelector('[name="_gotcha"]');
+      if (honeypot && honeypot.value) {
+        form.style.display = 'none';
+        if (successBlock) successBlock.classList.add('is-visible');
+        return;
+      }
+
       const originalText = submitBtn ? submitBtn.textContent : '';
       if (submitBtn) {
         submitBtn.disabled = true;
