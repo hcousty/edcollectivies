@@ -143,8 +143,12 @@ input, textarea, select { font: inherit; color: inherit; }
 .section--alt { background: var(--color-surface); }   /* fond gris pour alternance */
 
 @media (max-width: 768px) {
-  .section { padding: var(--space-8) 0; }
-  .section--lg { padding: var(--space-9) 0; }
+  /* Rythme vertical unifié sur mobile : toutes les sections au même padding (48px),
+     pour un espacement cohérent entre blocs (~96px de gap partout). Évite aussi le bug
+     de cascade où "section section--sm" valait 64px au lieu de 48px. */
+  .section,
+  .section--sm { padding: var(--space-7) 0; }              /* 48px haut/bas */
+  .section--lg { padding: var(--space-8) 0; }              /* 64px, un cran au-dessus */
 }
 
 /* ---------- 5. TYPOGRAPHIE ---------------------------------------------- */
@@ -1777,8 +1781,12 @@ p + p { margin-top: var(--space-4); }
   .why-grid .notice {
     position: static;
     order: -1;              /* bandeau en haut sur mobile */
-    flex-direction: row;
+    flex-direction: column; /* icône au-dessus : le texte garde toute la largeur */
   }
+}
+@media (max-width: 600px) {
+  /* Mobile : icône au-dessus du texte pour qu'il occupe toute la largeur (au lieu d'être resserré à droite) */
+  .notice { flex-direction: column; gap: var(--space-3); }
 }
 
 /* ---------- 20. FORM ---------------------------------------------------- */
@@ -2024,6 +2032,10 @@ p + p { margin-top: var(--space-4); }
   flex-wrap: wrap;
   gap: var(--space-3);
   margin-top: var(--space-6);
+}
+@media (max-width: 768px) {
+  /* Aligne le bandeau d'intro sur le rythme vertical mobile (au lieu de 64/96) */
+  .page-header { padding: var(--space-6) 0 var(--space-7); }  /* 32px haut / 48px bas */
 }
 
 .breadcrumb {
