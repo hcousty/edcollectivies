@@ -1732,6 +1732,7 @@ p + p { margin-top: var(--space-4); }
 }
 @media (max-width: 560px) {
   .product-section__families { grid-template-columns: 1fr; }
+  .family { padding: var(--space-4); }   /* padding latéral resserré (24px -> 16px) : icône plus proche du bord */
 }
 
 /* ---------- 19. NOTICE / AGRÉMENT BANNER -------------------------------- */
