@@ -667,27 +667,44 @@ p + p { margin-top: var(--space-4); }
   .hero__overlay {
     background: linear-gradient(180deg, rgba(7, 38, 68, 0.45) 0%, rgba(7, 38, 68, 0.85) 100%);
   }
-  /* Les stats redescendent sous le hero en flow normal */
+  /* Les stats redescendent dans le bas du hero : carte en verre dépoli posée sur l'image (flou de fond), 3 colonnes sur une ligne */
   .hero__stats {
     position: static;
     width: 100%;
     height: auto;
-    margin-top: var(--space-5);
-    padding: var(--space-5);
-    gap: var(--space-5);
-    background: var(--color-surface);
+    margin-top: var(--space-6);
+    padding: var(--space-4) var(--space-3);
+    gap: 0;
+    align-items: stretch;
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: var(--radius-md);
   }
-  .hero-stat + .hero-stat { padding-left: var(--space-5); }
+  .hero-stat { padding: 0 var(--space-3); }
+  .hero-stat + .hero-stat {
+    margin-left: 0;
+    padding-left: var(--space-3);
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .hero-stat__value {
+    color: #fff;
+    font-size: var(--fs-lg);   /* réduit pour tenir sur une ligne en 3 colonnes */
+    white-space: nowrap;
+  }
+  .hero-stat__label {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.6875rem;      /* un cran sous --fs-xs pour les colonnes étroites */
+    line-height: 1.35;
+  }
 }
 @media (max-width: 560px) {
-  .hero__stats { flex-direction: column; gap: var(--space-4); }
-  .hero-stat + .hero-stat {
-    padding-left: 0;
-    border-left: none;
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
-  }
+  /* On reste en 3 colonnes : espacements et chiffres encore réduits pour les petits écrans */
+  .hero__stats { padding: var(--space-4) var(--space-2); }
+  .hero-stat { padding: 0 var(--space-2); }
+  .hero-stat + .hero-stat { padding-left: var(--space-2); }
+  .hero-stat__value { font-size: var(--fs-base); }
 }
 
 /* Bande de chiffres clés sous le hero — sobre, blanche, dense */
@@ -723,7 +740,7 @@ p + p { margin-top: var(--space-4); }
 }
 
 @media (max-width: 880px) {
-  .hero { padding: var(--space-7) 0; }
+  .hero { padding: var(--space-4) 0 var(--space-7); }  /* moins d'espace blanc entre le header et le hero */
   .hero__inner { grid-template-columns: 1fr; gap: var(--space-6); }
   .hero__image { aspect-ratio: 16 / 9; }
   .hero__title { max-width: none; }
@@ -1167,10 +1184,22 @@ p + p { margin-top: var(--space-4); }
   max-width: 26ch;
 }
 @media (max-width: 880px) {
-  .approach__grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
+  .approach__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); }
 }
-@media (max-width: 480px) {
-  .approach__grid { grid-template-columns: 1fr; }
+@media (max-width: 600px) {
+  /* Phone : une carte par ligne (la grille 2x2 était trop resserrée), icône à gauche du texte.
+     Layout grid : icône en colonne 1 sur 2 rangées, titre + description empilés en colonne 2. */
+  .approach__grid { grid-template-columns: 1fr; gap: var(--space-4); }
+  .approach__item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    column-gap: var(--space-4);
+    text-align: left;
+    padding: var(--space-5);
+  }
+  .approach__icon { grid-row: 1 / 3; margin-bottom: 0; }
+  .approach__desc { max-width: none; }
 }
 
 /* ---------- 13bis-b. MODALITÉS — 4 colonnes avec icônes ---------------- */
@@ -1475,7 +1504,7 @@ p + p { margin-top: var(--space-4); }
 .eco p { color: var(--color-text-muted); }
 .eco__pillars {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);  /* minmax(0,…) : colonnes strictement égales, indépendantes du contenu */
   gap: var(--space-4);
 }
 .eco__pillar {
@@ -1499,6 +1528,10 @@ p + p { margin-top: var(--space-4); }
 }
 @media (max-width: 960px) {
   .eco { grid-template-columns: 1fr; padding: var(--space-7) var(--space-5); }
+}
+@media (max-width: 600px) {
+  /* Phone : un pilier par ligne (la grille 2x2 était trop resserrée) */
+  .eco__pillars { grid-template-columns: 1fr; }
 }
 
 /* ---------- 16. CTA BAND — bannière contenue avec image en fond -------- */
