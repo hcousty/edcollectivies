@@ -2,3 +2,6 @@
 *.log
 Thumbs.db
 .claude/
+
+# Note de passation interne — ne JAMAIS publier (contient infos sensibles)
+ETAT-PROJET.md
