@@ -1,0 +1,42 @@
+name: Déploiement OVH (production)
+
+# Publie automatiquement le site sur l'hébergement OVH à chaque push sur main.
+# Pré-requis : 3 secrets GitHub définis (Settings > Secrets and variables > Actions) :
+#   FTP_SERVER    -> serveur FTP OVH (ex. ftp.cluster0XX.hosting.ovh.net)
+#   FTP_USERNAME  -> identifiant FTP
+#   FTP_PASSWORD  -> mot de passe FTP
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:          # permet aussi un déclenchement manuel depuis l'onglet "Actions"
+
+jobs:
+  deploy:
+    name: Publication FTP vers OVH
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+
+      - name: Transfert FTP vers OVH
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps          # FTP chiffré (TLS). Si erreur de certificat, repli possible sur "ftp".
+          port: 21
+          # Dossier web sur OVH. Pour le domaine principal d'un hébergement
+          # mutualisé, c'est "www/". À vérifier dans OVH > Multisite si besoin.
+          server-dir: ./www/
+          # Fichiers à NE PAS publier (le reste du repo est envoyé, y compris .htaccess).
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/node_modules/**
+            README.md
+            DESIGN-GUIDELINES.md
+            ETAT-PROJET.md
+            **/.DS_Store

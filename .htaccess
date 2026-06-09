@@ -14,9 +14,9 @@
   RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Forcer www → sans www (au choix : adapter à la préférence)
-  # RewriteCond %{HTTP_HOST} ^www\.ed-collectivites\.fr [NC]
-  # RewriteRule ^(.*)$ https://ed-collectivites.fr/$1 [L,R=301]
+  # Forcer www → sans www (adresse principale : ed-collectivites.fr)
+  RewriteCond %{HTTP_HOST} ^www\.ed-collectivites\.fr [NC]
+  RewriteRule ^(.*)$ https://ed-collectivites.fr/$1 [L,R=301]
 
   # ---------- 2. URLs SANS .html ----------------------------------------
   # /a-propos → sert /a-propos.html (URL propre)
