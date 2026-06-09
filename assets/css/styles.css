@@ -1646,19 +1646,23 @@ p + p { margin-top: var(--space-4); }
 }
 .toc a:hover { background: var(--color-surface-alt); color: var(--color-navy-900); }
 @media (max-width: 768px) {
-  /* Mobile : liste verticale propre (label sur sa ligne, un lien par ligne, alignés à gauche)
-     au lieu d'un wrap horizontal désordonné. */
-  .toc {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-1);
-    padding: var(--space-4) var(--space-5);
-  }
+  /* Mobile : label seul sur la 1re ligne, puis liens en pastilles qui s'enroulent (2-3 par rangée). */
+  .toc { gap: var(--space-2); padding: var(--space-4) var(--space-5); }
   .toc__label {
-    margin: 0 0 var(--space-2);
-    padding: 0 var(--space-3);
+    flex-basis: 100%;          /* force le label seul sur sa ligne, les pastilles passent en dessous */
+    margin: 0 0 var(--space-1);
+    padding: 0;
   }
-  .toc a { padding: var(--space-2) var(--space-3); }
+  .toc a {
+    background: var(--color-bg);            /* pastille blanche visible sur le fond gris du bloc */
+    border: 1px solid var(--color-border);
+    padding: var(--space-2) var(--space-4);
+  }
+  .toc a:hover, .toc a:active {
+    background: var(--color-navy-800);
+    border-color: var(--color-navy-800);
+    color: #fff;
+  }
 }
 
 /* ---------- 18. PRODUCT SECTIONS (anchored) ----------------------------- */
