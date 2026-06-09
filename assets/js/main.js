@@ -134,7 +134,7 @@
   const submitBtn = form ? form.querySelector('[type="submit"]') : null;
 
   function setFieldError(field, hasError) {
-    const wrapper = field.closest('.field');
+    const wrapper = field.closest('.field, .checkbox');
     if (!wrapper) return;
     wrapper.classList.toggle('has-error', hasError);
   }
@@ -143,11 +143,14 @@
     if (!form) return false;
     let valid = true;
     form.querySelectorAll('[required]').forEach(field => {
-      const val = (field.value || '').trim();
-      const isEmpty = !val;
-      const isEmail = field.type === 'email';
-      const isInvalidEmail = isEmail && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-      const error = isEmpty || isInvalidEmail;
+      let error;
+      if (field.type === 'checkbox') {
+        error = !field.checked;                 // case à cocher : doit être cochée
+      } else {
+        const val = (field.value || '').trim();
+        const isInvalidEmail = field.type === 'email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+        error = !val || isInvalidEmail;
+      }
       setFieldError(field, error);
       if (error) valid = false;
     });
@@ -157,21 +160,23 @@
   if (form) {
     form.querySelectorAll('input, select, textarea').forEach(field => {
       field.addEventListener('blur', () => {
+        if (field.type === 'checkbox') return;   // la case RGPD est validée à l'envoi
         const val = (field.value || '').trim();
         if (field.hasAttribute('required') && !val) setFieldError(field, true);
         else setFieldError(field, false);
       });
-      field.addEventListener('input', () => {
-        if (field.closest('.field').classList.contains('has-error')) {
-          setFieldError(field, false);
-        }
-      });
+      const clearOnInteraction = () => {
+        const wrapper = field.closest('.field, .checkbox');
+        if (wrapper && wrapper.classList.contains('has-error')) setFieldError(field, false);
+      };
+      field.addEventListener('input', clearOnInteraction);
+      field.addEventListener('change', clearOnInteraction);  // couvre la case à cocher
     });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!validateForm()) {
-        const firstError = form.querySelector('.field.has-error');
+        const firstError = form.querySelector('.field.has-error, .checkbox.has-error');
         if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }

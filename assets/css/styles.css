@@ -1878,6 +1878,14 @@ p + p { margin-top: var(--space-4); }
 }
 .checkbox input { width: 18px; height: 18px; margin-top: 3px; cursor: pointer; }
 .checkbox a { text-decoration: underline; }
+.checkbox__error {
+  grid-column: 1 / -1;                 /* pleine largeur sous la case + le texte */
+  font-size: var(--fs-xs);
+  color: var(--color-coral-600);
+  display: none;
+}
+.checkbox.has-error .checkbox__error { display: block; }
+.checkbox.has-error input { outline: 2px solid var(--color-coral-500); outline-offset: 1px; }
 
 @media (max-width: 640px) {
   .form__row { grid-template-columns: 1fr; }
