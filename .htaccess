@@ -18,6 +18,16 @@
   RewriteCond %{HTTP_HOST} ^www\.ed-collectivites\.fr [NC]
   RewriteRule ^(.*)$ https://ed-collectivites.fr/$1 [L,R=301]
 
+  # ---------- 1bis. REDIRECTIONS 301 DES ANCIENNES URLS WORDPRESS --------
+  # Slugs qui ont changé entre l'ancien site et le nouveau :
+  RewriteRule ^nous-contacter/?$ /contact [R=301,L]
+  RewriteRule ^politique-de-confidentialite/?$ /politique-confidentialite [R=301,L]
+  RewriteRule ^bonjour-tout-le-monde/?$ / [R=301,L]
+  # Anciennes URLs au même intitulé (a-propos/, nos-produits/, mentions-legales/…) :
+  # on retire simplement le slash final pour retomber sur la nouvelle URL propre.
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
   # ---------- 2. URLs SANS .html ----------------------------------------
   # /a-propos → sert /a-propos.html (URL propre)
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -29,18 +39,14 @@
   RewriteRule ^ /%1 [R=301,L]
 </IfModule>
 
-# ---------- 3. REDIRECTIONS 301 LEGACY (À COMPLÉTER) ----------------------
-# IMPORTANT : extraire le sitemap WordPress avant migration et mapper
-# chaque ancienne URL vers la nouvelle. Exemples :
+# ---------- 3. REDIRECTIONS 301 LEGACY -----------------------------------
+# Les redirections des anciennes URLs WordPress sont gérées plus haut
+# (section 1bis, dans le bloc mod_rewrite) : pages principales + retrait
+# du slash final. Si on récupère le sitemap WordPress complet (catégories,
+# fiches produits…), ajouter ici les mappings spécifiques restants, ex. :
 #
-# Redirect 301 /produits/desherbant /nos-produits#espaces-verts
-# Redirect 301 /produits/dratisation /nos-produits#nuisibles
-# Redirect 301 /a-propos-2 /a-propos
-# Redirect 301 /contact-fr /contact
-# Redirect 301 /blog /
-# Redirect 301 /category/produits /nos-produits
-#
-# (Ces lignes sont des EXEMPLES — à adapter au sitemap réel.)
+# RewriteRule ^categorie/desherbant/?$ /nos-produits#espaces-verts [R=301,L]
+# RewriteRule ^categorie/nuisibles/?$  /nos-produits#nuisibles      [R=301,L]
 
 # ---------- 4. HEADERS DE SÉCURITÉ ---------------------------------------
 <IfModule mod_headers.c>
