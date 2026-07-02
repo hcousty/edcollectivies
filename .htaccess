@@ -68,9 +68,15 @@
   # CSP — autorise GTM + Analytics + Axeptio (CMP) + Formspree + bunny fonts ; images locales
   Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com https://*.axept.io; style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://*.axept.io; font-src 'self' https://fonts.bunny.net https://*.axept.io; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://static.axept.io https://*.axept.io; connect-src 'self' https://formspree.io https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.googletagmanager.com https://api.axept.io https://*.axept.io; frame-src https://www.googletagmanager.com https://*.axept.io; frame-ancestors 'self';"
 
-  # Cache long pour les assets statiques
-  <FilesMatch "\.(css|js|svg|woff2|woff|ttf|eot|jpg|jpeg|png|gif|ico|webp|avif)$">
-    Header set Cache-Control "max-age=31536000, public, immutable"
+  # CSS / JS : révalidation à chaque chargement (le contenu change à chaque déploiement,
+  # au même nom de fichier). Évite qu'un ancien CSS reste servi et casse la mise en page.
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  # Médias (images, polices, svg) : cache court, SANS "immutable" (remplaçables au même nom)
+  <FilesMatch "\.(svg|woff2|woff|ttf|eot|jpg|jpeg|png|gif|ico|webp|avif)$">
+    Header set Cache-Control "max-age=86400, public"
   </FilesMatch>
 
   # Pas de cache pour le HTML (on veut servir les dernières versions)
