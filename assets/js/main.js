@@ -158,6 +158,15 @@
   }
 
   if (form) {
+    // Pré-sélection de l'objet via ?objet=... (ex. bouton « Commander » de la page UniVert)
+    const objetParam = new URLSearchParams(location.search).get('objet');
+    if (objetParam) {
+      const objetSelect = form.querySelector('#objet');
+      if (objetSelect && Array.from(objetSelect.options).some(o => o.value === objetParam)) {
+        objetSelect.value = objetParam;
+      }
+    }
+
     form.querySelectorAll('input, select, textarea').forEach(field => {
       field.addEventListener('blur', () => {
         if (field.type === 'checkbox') return;   // la case RGPD est validée à l'envoi
