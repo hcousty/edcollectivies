@@ -167,6 +167,15 @@
       }
     }
 
+    // Pré-remplissage du message si un produit est passé (?produit=... depuis un bouton Commander produit)
+    const produitParam = new URLSearchParams(location.search).get('produit');
+    if (produitParam) {
+      const msgField = form.querySelector('#message');
+      if (msgField && !msgField.value.trim()) {
+        msgField.value = 'Bonjour, je souhaite commander le produit suivant de la gamme UniVert : ' + produitParam + '.';
+      }
+    }
+
     form.querySelectorAll('input, select, textarea').forEach(field => {
       field.addEventListener('blur', () => {
         if (field.type === 'checkbox') return;   // la case RGPD est validée à l'envoi

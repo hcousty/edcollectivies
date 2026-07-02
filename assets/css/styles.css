@@ -2252,6 +2252,7 @@ p + p { margin-top: var(--space-4); }
 }
 .uv-card__format { font-size: var(--fs-xs); color: var(--color-text-soft); }
 .uv-card__price { font-size: var(--fs-base); font-weight: 700; color: var(--color-navy-800); white-space: nowrap; }
+.uv-card__cta { width: 100%; justify-content: center; margin-top: var(--space-4); }
 .univert-outro { margin-top: var(--space-7); text-align: center; }
 .univert-legal {
   margin: var(--space-5) auto 0;
