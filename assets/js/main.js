@@ -92,43 +92,7 @@
     if (match) objetSelect.value = match.value;
   }
 
-  /* ----------------------------- 6. Slider horizontal ---------------------- */
-  const sliders = document.querySelectorAll('[data-slider]');
-
-  sliders.forEach(slider => {
-    const track = slider.querySelector('[data-slider-track]');
-    const prevBtn = slider.querySelector('[data-slider-prev]');
-    const nextBtn = slider.querySelector('[data-slider-next]');
-    if (!track || !prevBtn || !nextBtn) return;
-
-    // Largeur d'un slide + gap (pour scroller exactement d'une carte)
-    const getStep = () => {
-      const slide = track.firstElementChild;
-      if (!slide) return 320;
-      const styles = window.getComputedStyle(track);
-      const gap = parseFloat(styles.columnGap || styles.gap || 0);
-      return slide.offsetWidth + gap;
-    };
-
-    const updateButtons = () => {
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      prevBtn.disabled = track.scrollLeft <= 2;
-      nextBtn.disabled = track.scrollLeft >= maxScroll - 2;
-    };
-
-    prevBtn.addEventListener('click', () => {
-      track.scrollBy({ left: -getStep(), behavior: 'smooth' });
-    });
-    nextBtn.addEventListener('click', () => {
-      track.scrollBy({ left: getStep(), behavior: 'smooth' });
-    });
-
-    track.addEventListener('scroll', updateButtons, { passive: true });
-    window.addEventListener('resize', updateButtons);
-    updateButtons();
-  });
-
-  /* ----------------------------- 7. Formulaire de contact ------------------ */
+  /* ----------------------------- 6. Formulaire de contact ------------------ */
   const form = document.querySelector('[data-contact-form]');
   const successBlock = document.querySelector('[data-form-success]');
   const submitBtn = form ? form.querySelector('[type="submit"]') : null;
